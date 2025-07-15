@@ -1,4 +1,4 @@
-package com.catalis.core.erp.inventory.models.repositories;
+package com.catalis.core.users.models.repositories;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
