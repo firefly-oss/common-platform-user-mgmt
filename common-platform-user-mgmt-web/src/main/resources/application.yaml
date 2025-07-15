@@ -1,8 +1,8 @@
 spring:
   application:
-    name: core-banking-ledger
+    name: common-platform-user-mgmt
     version: 1.0.0
-    description: Banking Ledger Core Application
+    description: User Management Core Application
     team:
       name: Catalis Development
       email: dev@catalis.com
@@ -43,7 +43,7 @@ springdoc:
     operationsSorter: method
     docExpansion: none
     filter: true
-  packages-to-scan: com.catalis.core.banking.ledger.web.controllers
+  packages-to-scan: com.catalis.core.users.web.controllers
   paths-to-match: /api/**
 
 management:
