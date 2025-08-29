@@ -238,7 +238,7 @@ server:
 logging:
   level:
     root: INFO
-    com.catalis.core.users: DEBUG
+    com.firefly.core.users: DEBUG
 ```
 
 ## API Documentation
