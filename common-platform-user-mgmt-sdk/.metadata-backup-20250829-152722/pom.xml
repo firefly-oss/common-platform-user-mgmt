@@ -111,9 +111,9 @@
                             <generatorName>java</generatorName>
                             <library>webclient</library>
                             <output>${generated-sources-dir}</output>
-                            <apiPackage>com.firefly.core.users.sdk.api</apiPackage>
-                            <modelPackage>com.firefly.core.users.sdk.model</modelPackage>
-                            <invokerPackage>com.firefly.core.users.sdk.invoker</invokerPackage>
+                            <apiPackage>com.catalis.core.users.sdk.api</apiPackage>
+                            <modelPackage>com.catalis.core.users.sdk.model</modelPackage>
+                            <invokerPackage>com.catalis.core.users.sdk.invoker</invokerPackage>
                             <configOptions>
                                 <java20>true</java20>
                                 <useTags>true</useTags>
