@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "Role Permissions", description = "API for managing role permissions")
@@ -47,7 +49,7 @@ public class RolePermissionController {
     @GetMapping(value = "/role-permissions/{rolePermissionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<RolePermissionDTO> getRolePermissionById(
             @Parameter(description = "ID of the role permission to retrieve", required = true)
-            @PathVariable Long rolePermissionId) {
+            @PathVariable UUID rolePermissionId) {
         return rolePermissionService.getRolePermissionById(rolePermissionId);
     }
 
@@ -79,7 +81,7 @@ public class RolePermissionController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<RolePermissionDTO> assignPermissionToRole(
             @Parameter(description = "ID of the role", required = true)
-            @PathVariable Long roleId,
+            @PathVariable UUID roleId,
             @RequestBody RolePermissionDTO rolePermissionDTO) {
         rolePermissionDTO.setRoleId(roleId);
         return rolePermissionService.createRolePermission(rolePermissionDTO);
@@ -138,7 +140,7 @@ public class RolePermissionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteRolePermission(
             @Parameter(description = "ID of the role permission to delete", required = true)
-            @PathVariable Long rolePermissionId) {
+            @PathVariable UUID rolePermissionId) {
         return rolePermissionService.deleteRolePermission(rolePermissionId);
     }
 }

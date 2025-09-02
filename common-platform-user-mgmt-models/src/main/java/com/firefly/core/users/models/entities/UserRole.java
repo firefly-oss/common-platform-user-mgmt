@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a user-role assignment in the system.
@@ -24,37 +25,37 @@ import java.time.OffsetDateTime;
 public class UserRole {
     
     @Id
-    private Long id;
-    
+    private UUID id;
+
     @Column("user_account_id")
-    private Long userAccountId;
-    
+    private UUID userAccountId;
+
     @Column("role_id")
-    private Long roleId;
-    
+    private UUID roleId;
+
     @Column("branch_id")
-    private Long branchId;
-    
+    private UUID branchId;
+
     @Column("distributor_id")
-    private Long distributorId;
-    
+    private UUID distributorId;
+
     @Column("assigned_at")
     private OffsetDateTime assignedAt;
-    
+
     @Column("assigned_by")
-    private Long assignedBy;
+    private UUID assignedBy;
     
     @CreatedDate
     @Column("created_at")
     private OffsetDateTime createdAt;
-    
+
     @Column("created_by")
-    private Long createdBy;
-    
+    private UUID createdBy;
+
     @LastModifiedDate
     @Column("updated_at")
     private OffsetDateTime updatedAt;
-    
+
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

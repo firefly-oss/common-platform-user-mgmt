@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.interfaces.dtos.PermissionDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing permissions.
@@ -33,16 +34,16 @@ public interface PermissionService {
      * @param permissionDTO the data transfer object containing the updated details of the permission
      * @return a reactive Mono containing the updated PermissionDTO
      */
-    Mono<PermissionDTO> updatePermission(Long permissionId, PermissionDTO permissionDTO);
-    
+    Mono<PermissionDTO> updatePermission(UUID permissionId, PermissionDTO permissionDTO);
+
     /**
      * Deletes a permission identified by its unique ID.
      *
      * @param permissionId the unique identifier of the permission to be deleted
      * @return a Mono that completes when the permission is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deletePermission(Long permissionId);
-    
+    Mono<Void> deletePermission(UUID permissionId);
+
     /**
      * Retrieves a permission by its unique identifier.
      *
@@ -50,5 +51,5 @@ public interface PermissionService {
      * @return a Mono emitting the {@link PermissionDTO} representing the permission if found,
      *         or an empty Mono if the permission does not exist
      */
-    Mono<PermissionDTO> getPermissionById(Long permissionId);
+    Mono<PermissionDTO> getPermissionById(UUID permissionId);
 }

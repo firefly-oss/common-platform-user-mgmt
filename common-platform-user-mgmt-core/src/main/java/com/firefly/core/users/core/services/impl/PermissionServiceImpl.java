@@ -1,9 +1,10 @@
-package com.firefly.core.users.core.services;
+package com.firefly.core.users.core.services.impl;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.PermissionMapper;
+import com.firefly.core.users.core.services.PermissionService;
 import com.firefly.core.users.interfaces.dtos.PermissionDTO;
 import com.firefly.core.users.models.entities.Permission;
 import com.firefly.core.users.models.repositories.PermissionRepository;

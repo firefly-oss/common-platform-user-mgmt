@@ -73,15 +73,15 @@ erDiagram
     Permission ||--o{ RolePermission : assigned_to
 
     UserAccount {
-        Long id PK
+        UUID id PK
         String fullName
         String nickname
         String email
         UserTypeEnum userType
-        Long branchId
-        Long distributorId
-        Long departmentId
-        Long positionId
+        UUID branchId
+        UUID distributorId
+        UUID departmentId
+        UUID positionId
         String jobTitle
         String avatarUrl
         ThemePreferenceEnum themePreference
@@ -91,75 +91,75 @@ erDiagram
         String contactPhone
         Boolean isActive
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     Role {
-        Long id PK
+        UUID id PK
         String name
         String description
         Boolean isAssignable
         ScopeTypeEnum scopeType
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     Permission {
-        Long id PK
+        UUID id PK
         String name
         String description
         String domain
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     UserRole {
-        Long id PK
-        Long userAccountId FK
-        Long roleId FK
-        Long branchId
-        Long distributorId
+        UUID id PK
+        UUID userAccountId FK
+        UUID roleId FK
+        UUID branchId
+        UUID distributorId
         OffsetDateTime assignedAt
-        Long assignedBy
+        UUID assignedBy
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     RolePermission {
-        Long id PK
-        Long roleId FK
-        Long permissionId FK
+        UUID id PK
+        UUID roleId FK
+        UUID permissionId FK
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     UserExternalIdentity {
-        Long id PK
-        Long userAccountId FK
+        UUID id PK
+        UUID userAccountId FK
         String provider
         String subjectId
         String email
         Boolean isPrimary
         OffsetDateTime linkedAt
         OffsetDateTime createdAt
-        Long createdBy
+        UUID createdBy
         OffsetDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     AuditLog {
-        Long id PK
-        Long userAccountId FK
+        UUID id PK
+        UUID userAccountId FK
         String action
         String resource
         String resourceId
@@ -354,10 +354,10 @@ UserAccountDTO newUser = UserAccountDTO.builder()
     .nickname("Johnny")
     .email("john.doe@example.com")
     .userType(UserTypeEnum.EMPLOYEE)
-    .branchId(1L)
-    .distributorId(1L)
-    .departmentId(2L)
-    .positionId(3L)
+    .branchId(UUID.fromString("123e4567-e89b-12d3-a456-426614174001"))
+    .distributorId(UUID.fromString("123e4567-e89b-12d3-a456-426614174002"))
+    .departmentId(UUID.fromString("123e4567-e89b-12d3-a456-426614174003"))
+    .positionId(UUID.fromString("123e4567-e89b-12d3-a456-426614174004"))
     .jobTitle("Software Engineer")
     .themePreference(ThemePreferenceEnum.DARK)
     .languagePreference("en-US")
@@ -381,10 +381,10 @@ curl -X POST http://localhost:8080/api/v1/users \
     "nickname": "Johnny",
     "email": "john.doe@example.com",
     "userType": "EMPLOYEE",
-    "branchId": 1,
-    "distributorId": 1,
-    "departmentId": 2,
-    "positionId": 3,
+    "branchId": "123e4567-e89b-12d3-a456-426614174001",
+    "distributorId": "123e4567-e89b-12d3-a456-426614174002",
+    "departmentId": "123e4567-e89b-12d3-a456-426614174003",
+    "positionId": "123e4567-e89b-12d3-a456-426614174004",
     "jobTitle": "Software Engineer",
     "themePreference": "DARK",
     "languagePreference": "en-US",
@@ -401,7 +401,7 @@ curl -X POST http://localhost:8080/api/v1/users \
 
 ```java
 // Get user by ID
-Long userId = 1L;
+UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 UserAccountDTO user = client.getUserAccountById(userId).block();
 System.out.println("Retrieved user: " + user.getFullName());
 ```
@@ -409,7 +409,7 @@ System.out.println("Retrieved user: " + user.getFullName());
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/users/1
+curl -X GET http://localhost:8080/api/v1/users/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Updating a User Account
@@ -418,7 +418,8 @@ curl -X GET http://localhost:8080/api/v1/users/1
 
 ```java
 // Update an existing user
-UserAccountDTO userToUpdate = client.getUserAccountById(1L).block();
+UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+UserAccountDTO userToUpdate = client.getUserAccountById(userId).block();
 userToUpdate.setFullName("John Smith");
 userToUpdate.setJobTitle("Senior Software Engineer");
 
@@ -429,7 +430,7 @@ System.out.println("Updated user: " + updatedUser.getFullName());
 **Using REST API (curl):**
 
 ```bash
-curl -X PUT http://localhost:8080/api/v1/users/1 \
+curl -X PUT http://localhost:8080/api/v1/users/123e4567-e89b-12d3-a456-426614174000 \
   -H "Content-Type: application/json" \
   -d '{
     "fullName": "John Smith",
@@ -449,7 +450,7 @@ curl -X PUT http://localhost:8080/api/v1/users/1 \
 FilterRequest<UserAccountDTO> filterRequest = new FilterRequest<>();
 filterRequest.setFilter(UserAccountDTO.builder()
     .userType(UserTypeEnum.EMPLOYEE)
-    .branchId(1L)
+    .branchId(UUID.fromString("123e4567-e89b-12d3-a456-426614174001"))
     .build());
 filterRequest.setPage(0);
 filterRequest.setSize(10);
@@ -467,7 +468,7 @@ curl -X POST http://localhost:8080/api/v1/users/filter \
   -d '{
     "filter": {
       "userType": "EMPLOYEE",
-      "branchId": 1
+      "branchId": "123e4567-e89b-12d3-a456-426614174001"
     },
     "page": 0,
     "size": 10
@@ -512,7 +513,7 @@ curl -X POST http://localhost:8080/api/v1/roles \
 
 ```java
 // Get role by ID
-Long roleId = 1L;
+UUID roleId = UUID.fromString("123e4567-e89b-12d3-a456-426614174010");
 RoleDTO role = client.getRoleById(roleId).block();
 System.out.println("Retrieved role: " + role.getName());
 ```
@@ -520,7 +521,7 @@ System.out.println("Retrieved role: " + role.getName());
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/roles/1
+curl -X GET http://localhost:8080/api/v1/roles/123e4567-e89b-12d3-a456-426614174010
 ```
 
 #### Filtering Roles
@@ -591,7 +592,7 @@ curl -X POST http://localhost:8080/api/v1/permissions \
 
 ```java
 // Get permission by ID
-Long permissionId = 1L;
+UUID permissionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174020");
 PermissionDTO permission = client.getPermissionById(permissionId).block();
 System.out.println("Retrieved permission: " + permission.getName());
 ```
@@ -599,7 +600,7 @@ System.out.println("Retrieved permission: " + permission.getName());
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/permissions/1
+curl -X GET http://localhost:8080/api/v1/permissions/123e4567-e89b-12d3-a456-426614174020
 ```
 
 #### Filtering Permissions
@@ -643,10 +644,10 @@ curl -X POST http://localhost:8080/api/v1/permissions/filter \
 ```java
 // Assign a role to a user
 UserRoleDTO userRole = UserRoleDTO.builder()
-    .userAccountId(1L)
-    .roleId(1L)
-    .branchId(1L)
-    .distributorId(1L)
+    .userAccountId(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
+    .roleId(UUID.fromString("123e4567-e89b-12d3-a456-426614174010"))
+    .branchId(UUID.fromString("123e4567-e89b-12d3-a456-426614174001"))
+    .distributorId(UUID.fromString("123e4567-e89b-12d3-a456-426614174002"))
     .build();
 
 UserRoleDTO assignedRole = client.assignRoleToUser(userRole).block();
@@ -659,10 +660,10 @@ System.out.println("Assigned role ID " + assignedRole.getRoleId() + " to user ID
 curl -X POST http://localhost:8080/api/v1/user-roles \
   -H "Content-Type: application/json" \
   -d '{
-    "userAccountId": 1,
-    "roleId": 1,
-    "branchId": 1,
-    "distributorId": 1
+    "userAccountId": "123e4567-e89b-12d3-a456-426614174000",
+    "roleId": "123e4567-e89b-12d3-a456-426614174010",
+    "branchId": "123e4567-e89b-12d3-a456-426614174001",
+    "distributorId": "123e4567-e89b-12d3-a456-426614174002"
   }'
 ```
 
@@ -672,7 +673,7 @@ curl -X POST http://localhost:8080/api/v1/user-roles \
 
 ```java
 // Get all roles for a user
-Long userId = 1L;
+UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 List<UserRoleDTO> userRoles = client.getRolesByUserId(userId).block().getContent();
 System.out.println("User has " + userRoles.size() + " roles");
 userRoles.forEach(ur -> System.out.println("Role ID: " + ur.getRoleId()));
@@ -681,7 +682,7 @@ userRoles.forEach(ur -> System.out.println("Role ID: " + ur.getRoleId()));
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/user-roles/user/1
+curl -X GET http://localhost:8080/api/v1/user-roles/user/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Removing a Role from a User
@@ -690,7 +691,7 @@ curl -X GET http://localhost:8080/api/v1/user-roles/user/1
 
 ```java
 // Remove a role from a user
-Long userRoleId = 1L;
+UUID userRoleId = UUID.fromString("123e4567-e89b-12d3-a456-426614174030");
 client.removeRoleFromUser(userRoleId).block();
 System.out.println("Removed user-role with ID: " + userRoleId);
 ```
@@ -698,7 +699,7 @@ System.out.println("Removed user-role with ID: " + userRoleId);
 **Using REST API (curl):**
 
 ```bash
-curl -X DELETE http://localhost:8080/api/v1/user-roles/1
+curl -X DELETE http://localhost:8080/api/v1/user-roles/123e4567-e89b-12d3-a456-426614174030
 ```
 
 ### Role Permission API Examples
@@ -710,8 +711,8 @@ curl -X DELETE http://localhost:8080/api/v1/user-roles/1
 ```java
 // Assign a permission to a role
 RolePermissionDTO rolePermission = RolePermissionDTO.builder()
-    .roleId(1L)
-    .permissionId(1L)
+    .roleId(UUID.fromString("123e4567-e89b-12d3-a456-426614174010"))
+    .permissionId(UUID.fromString("123e4567-e89b-12d3-a456-426614174020"))
     .build();
 
 RolePermissionDTO assignedPermission = client.assignPermissionToRole(rolePermission).block();
@@ -724,8 +725,8 @@ System.out.println("Assigned permission ID " + assignedPermission.getPermissionI
 curl -X POST http://localhost:8080/api/v1/role-permissions \
   -H "Content-Type: application/json" \
   -d '{
-    "roleId": 1,
-    "permissionId": 1
+    "roleId": "123e4567-e89b-12d3-a456-426614174010",
+    "permissionId": "123e4567-e89b-12d3-a456-426614174020"
   }'
 ```
 
@@ -735,7 +736,7 @@ curl -X POST http://localhost:8080/api/v1/role-permissions \
 
 ```java
 // Get all permissions for a role
-Long roleId = 1L;
+UUID roleId = UUID.fromString("123e4567-e89b-12d3-a456-426614174010");
 List<RolePermissionDTO> rolePermissions = client.getPermissionsByRoleId(roleId).block().getContent();
 System.out.println("Role has " + rolePermissions.size() + " permissions");
 rolePermissions.forEach(rp -> System.out.println("Permission ID: " + rp.getPermissionId()));
@@ -744,7 +745,7 @@ rolePermissions.forEach(rp -> System.out.println("Permission ID: " + rp.getPermi
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/role-permissions/role/1
+curl -X GET http://localhost:8080/api/v1/role-permissions/role/123e4567-e89b-12d3-a456-426614174010
 ```
 
 #### Removing a Permission from a Role
@@ -753,7 +754,7 @@ curl -X GET http://localhost:8080/api/v1/role-permissions/role/1
 
 ```java
 // Remove a permission from a role
-Long rolePermissionId = 1L;
+UUID rolePermissionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174040");
 client.removePermissionFromRole(rolePermissionId).block();
 System.out.println("Removed role-permission with ID: " + rolePermissionId);
 ```
@@ -761,7 +762,7 @@ System.out.println("Removed role-permission with ID: " + rolePermissionId);
 **Using REST API (curl):**
 
 ```bash
-curl -X DELETE http://localhost:8080/api/v1/role-permissions/1
+curl -X DELETE http://localhost:8080/api/v1/role-permissions/123e4567-e89b-12d3-a456-426614174040
 ```
 
 ### User External Identity API Examples
@@ -773,7 +774,7 @@ curl -X DELETE http://localhost:8080/api/v1/role-permissions/1
 ```java
 // Link an external identity to a user
 UserExternalIdentityDTO externalIdentity = UserExternalIdentityDTO.builder()
-    .userAccountId(1L)
+    .userAccountId(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
     .provider("GOOGLE")
     .subjectId("google-subject-id-123")
     .email("john.doe@gmail.com")
@@ -790,7 +791,7 @@ System.out.println("Linked external identity with ID: " + linkedIdentity.getId()
 curl -X POST http://localhost:8080/api/v1/user-external-identities \
   -H "Content-Type: application/json" \
   -d '{
-    "userAccountId": 1,
+    "userAccountId": "123e4567-e89b-12d3-a456-426614174000",
     "provider": "GOOGLE",
     "subjectId": "google-subject-id-123",
     "email": "john.doe@gmail.com",
@@ -804,7 +805,7 @@ curl -X POST http://localhost:8080/api/v1/user-external-identities \
 
 ```java
 // Get all external identities for a user
-Long userId = 1L;
+UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 List<UserExternalIdentityDTO> externalIdentities = client.getExternalIdentitiesByUserId(userId).block().getContent();
 System.out.println("User has " + externalIdentities.size() + " external identities");
 externalIdentities.forEach(ei -> System.out.println("Provider: " + ei.getProvider()));
@@ -813,7 +814,7 @@ externalIdentities.forEach(ei -> System.out.println("Provider: " + ei.getProvide
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/user-external-identities/user/1
+curl -X GET http://localhost:8080/api/v1/user-external-identities/user/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Unlinking an External Identity from a User
@@ -841,7 +842,7 @@ curl -X DELETE http://localhost:8080/api/v1/user-external-identities/1
 
 ```java
 // Get audit logs for a user
-Long userId = 1L;
+UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 List<AuditLogDTO> auditLogs = client.getAuditLogsByUserId(userId).block().getContent();
 System.out.println("Found " + auditLogs.size() + " audit logs for user");
 auditLogs.forEach(log -> System.out.println("Action: " + log.getAction() + ", Resource: " + log.getResource()));
@@ -850,7 +851,7 @@ auditLogs.forEach(log -> System.out.println("Action: " + log.getAction() + ", Re
 **Using REST API (curl):**
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/audit-logs/user/1
+curl -X GET http://localhost:8080/api/v1/audit-logs/user/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Filtering Audit Logs
@@ -937,7 +938,7 @@ PermissionDTO permission2 = client.createPermission(createOrdersPermission).bloc
 UserRoleDTO userRole = UserRoleDTO.builder()
     .userAccountId(user.getId())
     .roleId(role.getId())
-    .branchId(1L)
+    .branchId(UUID.fromString("123e4567-e89b-12d3-a456-426614174001"))
     .build();
 client.assignRoleToUser(userRole).block();
 

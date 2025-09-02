@@ -1,9 +1,9 @@
 package com.firefly.core.users.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.RoleMapper;
+import com.firefly.core.users.core.services.impl.RoleServiceImpl;
 import com.firefly.core.users.interfaces.dtos.RoleDTO;
 import com.firefly.core.users.models.entities.Role;
 import com.firefly.core.users.models.repositories.RoleRepository;
@@ -12,19 +12,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RoleServiceImplTest {
+
+    private static final UUID TEST_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 
     @Mock
     private RoleRepository repository;
@@ -44,10 +45,10 @@ class RoleServiceImplTest {
     void setUp() {
         // Initialize test data
         role = new Role();
-        role.setId(1L);
+        role.setId(TEST_UUID);
 
         roleDTO = new RoleDTO();
-        roleDTO.setId(1L);
+        roleDTO.setId(TEST_UUID);
 
         filterRequest = new FilterRequest<>();
 
@@ -80,17 +81,17 @@ class RoleServiceImplTest {
     @Test
     void updateRole_WhenRoleExists_ShouldUpdateAndReturnRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(role));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(role));
         when(mapper.toEntity(any(RoleDTO.class))).thenReturn(role);
         when(repository.save(any(Role.class))).thenReturn(Mono.just(role));
         when(mapper.toDTO(any(Role.class))).thenReturn(roleDTO);
 
         // Act & Assert
-        StepVerifier.create(service.updateRole(1L, roleDTO))
+        StepVerifier.create(service.updateRole(TEST_UUID, roleDTO))
                 .expectNext(roleDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toEntity(roleDTO);
         verify(repository).save(role);
         verify(mapper).toDTO(role);
@@ -99,15 +100,15 @@ class RoleServiceImplTest {
     @Test
     void updateRole_WhenRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.updateRole(1L, roleDTO))
+        StepVerifier.create(service.updateRole(TEST_UUID, roleDTO))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Role not found with ID: 1"))
+                        throwable.getMessage().equals("Role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toEntity(any());
         verify(repository, never()).save(any());
         verify(mapper, never()).toDTO(any());
@@ -116,59 +117,59 @@ class RoleServiceImplTest {
     @Test
     void deleteRole_WhenRoleExists_ShouldDeleteRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(role));
-        when(repository.deleteById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(role));
+        when(repository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteRole(1L))
+        StepVerifier.create(service.deleteRole(TEST_UUID))
                 .verifyComplete();
 
-        verify(repository).findById(1L);
-        verify(repository).deleteById(1L);
+        verify(repository).findById(TEST_UUID);
+        verify(repository).deleteById(TEST_UUID);
     }
 
     @Test
     void deleteRole_WhenRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteRole(1L))
+        StepVerifier.create(service.deleteRole(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Role not found with ID: 1"))
+                        throwable.getMessage().equals("Role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
-        verify(repository, never()).deleteById(anyLong());
+        verify(repository).findById(TEST_UUID);
+        verify(repository, never()).deleteById(any(UUID.class));
     }
 
     @Test
     void getRoleById_WhenRoleExists_ShouldReturnRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(role));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(role));
         when(mapper.toDTO(any(Role.class))).thenReturn(roleDTO);
 
         // Act & Assert
-        StepVerifier.create(service.getRoleById(1L))
+        StepVerifier.create(service.getRoleById(TEST_UUID))
                 .expectNext(roleDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toDTO(role);
     }
 
     @Test
     void getRoleById_WhenRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.getRoleById(1L))
+        StepVerifier.create(service.getRoleById(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Role not found with ID: 1"))
+                        throwable.getMessage().equals("Role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toDTO(any());
     }
 }

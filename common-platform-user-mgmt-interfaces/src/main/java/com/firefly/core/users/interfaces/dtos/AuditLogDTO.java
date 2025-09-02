@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing an audit log entry in the system.
@@ -20,10 +21,10 @@ import java.time.OffsetDateTime;
 public class AuditLogDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long userAccountId;
+    private UUID userAccountId;
 
     private String action;
     private String resource;

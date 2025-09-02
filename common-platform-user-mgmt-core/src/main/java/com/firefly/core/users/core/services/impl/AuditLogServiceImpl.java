@@ -1,9 +1,10 @@
-package com.firefly.core.users.core.services;
+package com.firefly.core.users.core.services.impl;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.AuditLogMapper;
+import com.firefly.core.users.core.services.AuditLogService;
 import com.firefly.core.users.interfaces.dtos.AuditLogDTO;
 import com.firefly.core.users.models.entities.AuditLog;
 import com.firefly.core.users.models.repositories.AuditLogRepository;

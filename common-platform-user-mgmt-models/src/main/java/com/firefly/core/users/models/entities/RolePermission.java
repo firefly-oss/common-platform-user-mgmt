@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a role-permission mapping in the system.
@@ -24,25 +25,25 @@ import java.time.OffsetDateTime;
 public class RolePermission {
     
     @Id
-    private Long id;
-    
+    private UUID id;
+
     @Column("role_id")
-    private Long roleId;
-    
+    private UUID roleId;
+
     @Column("permission_id")
-    private Long permissionId;
-    
+    private UUID permissionId;
+
     @CreatedDate
     @Column("created_at")
     private OffsetDateTime createdAt;
-    
+
     @Column("created_by")
-    private Long createdBy;
-    
+    private UUID createdBy;
+
     @LastModifiedDate
     @Column("updated_at")
     private OffsetDateTime updatedAt;
-    
+
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

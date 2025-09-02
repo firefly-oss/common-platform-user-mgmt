@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a user account in the system.
@@ -21,7 +22,7 @@ import java.time.OffsetDateTime;
 public class UserAccountDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     private String fullName;
     private String nickname;
@@ -29,16 +30,16 @@ public class UserAccountDTO {
     private UserTypeEnum userType;
 
     @FilterableId
-    private Long branchId;
+    private UUID branchId;
 
     @FilterableId
-    private Long distributorId;
+    private UUID distributorId;
 
     @FilterableId
-    private Long departmentId;
+    private UUID departmentId;
 
     @FilterableId
-    private Long positionId;
+    private UUID positionId;
 
     private String jobTitle;
     private String avatarUrl;
@@ -49,7 +50,7 @@ public class UserAccountDTO {
     private String contactPhone;
     private Boolean isActive;
     private OffsetDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private OffsetDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

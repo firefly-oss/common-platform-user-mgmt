@@ -1,9 +1,10 @@
-package com.firefly.core.users.core.services;
+package com.firefly.core.users.core.services.impl;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.UserAccountMapper;
+import com.firefly.core.users.core.services.UserAccountService;
 import com.firefly.core.users.interfaces.dtos.UserAccountDTO;
 import com.firefly.core.users.models.entities.UserAccount;
 import com.firefly.core.users.models.repositories.UserAccountRepository;

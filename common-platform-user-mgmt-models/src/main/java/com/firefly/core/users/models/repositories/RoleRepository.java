@@ -6,12 +6,14 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Repository interface for Role entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface RoleRepository extends BaseRepository<Role, Long> {
+public interface RoleRepository extends BaseRepository<Role, UUID> {
     
     /**
      * Find a role by its name.

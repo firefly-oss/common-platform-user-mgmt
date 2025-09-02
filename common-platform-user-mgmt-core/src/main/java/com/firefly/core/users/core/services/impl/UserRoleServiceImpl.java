@@ -1,9 +1,10 @@
-package com.firefly.core.users.core.services;
+package com.firefly.core.users.core.services.impl;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.UserRoleMapper;
+import com.firefly.core.users.core.services.UserRoleService;
 import com.firefly.core.users.interfaces.dtos.UserRoleDTO;
 import com.firefly.core.users.models.entities.UserRole;
 import com.firefly.core.users.models.repositories.UserRoleRepository;

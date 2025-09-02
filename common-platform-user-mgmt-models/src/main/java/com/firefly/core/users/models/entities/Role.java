@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a role in the system.
@@ -25,29 +26,29 @@ import java.time.OffsetDateTime;
 public class Role {
     
     @Id
-    private Long id;
-    
+    private UUID id;
+
     private String name;
-    
+
     private String description;
-    
+
     @Column("is_assignable")
     private Boolean isAssignable;
-    
+
     @Column("scope_type")
     private ScopeTypeEnum scopeType;
-    
+
     @CreatedDate
     @Column("created_at")
     private OffsetDateTime createdAt;
-    
+
     @Column("created_by")
-    private Long createdBy;
-    
+    private UUID createdBy;
+
     @LastModifiedDate
     @Column("updated_at")
     private OffsetDateTime updatedAt;
-    
+
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

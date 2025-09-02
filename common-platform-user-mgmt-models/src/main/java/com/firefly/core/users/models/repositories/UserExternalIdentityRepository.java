@@ -5,20 +5,22 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Repository interface for UserExternalIdentity entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface UserExternalIdentityRepository extends BaseRepository<UserExternalIdentity, Long> {
-    
+public interface UserExternalIdentityRepository extends BaseRepository<UserExternalIdentity, UUID> {
+
     /**
      * Find external identities by user account ID.
      *
      * @param userAccountId the user account ID
      * @return a Flux of UserExternalIdentity entities
      */
-    Flux<UserExternalIdentity> findByUserAccountId(Long userAccountId);
+    Flux<UserExternalIdentity> findByUserAccountId(UUID userAccountId);
     
     /**
      * Find external identities by provider.

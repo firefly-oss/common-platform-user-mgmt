@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.interfaces.dtos.RolePermissionDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing role-permission mappings.
@@ -33,16 +34,16 @@ public interface RolePermissionService {
      * @param rolePermissionDTO the data transfer object containing the updated details of the role-permission mapping
      * @return a reactive Mono containing the updated RolePermissionDTO
      */
-    Mono<RolePermissionDTO> updateRolePermission(Long rolePermissionId, RolePermissionDTO rolePermissionDTO);
-    
+    Mono<RolePermissionDTO> updateRolePermission(UUID rolePermissionId, RolePermissionDTO rolePermissionDTO);
+
     /**
      * Deletes a role-permission mapping identified by its unique ID.
      *
      * @param rolePermissionId the unique identifier of the role-permission mapping to be deleted
      * @return a Mono that completes when the role-permission mapping is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteRolePermission(Long rolePermissionId);
-    
+    Mono<Void> deleteRolePermission(UUID rolePermissionId);
+
     /**
      * Retrieves a role-permission mapping by its unique identifier.
      *
@@ -50,5 +51,5 @@ public interface RolePermissionService {
      * @return a Mono emitting the {@link RolePermissionDTO} representing the role-permission mapping if found,
      *         or an empty Mono if the role-permission mapping does not exist
      */
-    Mono<RolePermissionDTO> getRolePermissionById(Long rolePermissionId);
+    Mono<RolePermissionDTO> getRolePermissionById(UUID rolePermissionId);
 }

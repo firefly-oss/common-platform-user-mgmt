@@ -5,12 +5,14 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Repository interface for Permission entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface PermissionRepository extends BaseRepository<Permission, Long> {
+public interface PermissionRepository extends BaseRepository<Permission, UUID> {
     
     /**
      * Find a permission by its name.

@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "User External Identities", description = "API for managing user external identities")
@@ -46,7 +48,7 @@ public class UserExternalIdentityController {
     @GetMapping(value = "/external-identities/{externalIdentityId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserExternalIdentityDTO> getUserExternalIdentityById(
             @Parameter(description = "ID of the user external identity to retrieve", required = true)
-            @PathVariable Long externalIdentityId) {
+            @PathVariable UUID externalIdentityId) {
         return userExternalIdentityService.getUserExternalIdentityById(externalIdentityId);
     }
 
@@ -60,7 +62,7 @@ public class UserExternalIdentityController {
     @GetMapping(value = "/users/{userId}/external-identities", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<UserExternalIdentityDTO>> getExternalIdentitiesByUserId(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId) {
+            @PathVariable UUID userId) {
         FilterRequest<UserExternalIdentityDTO> filterRequest = new FilterRequest<>();
         // The actual filtering will be handled by the service based on the userId
         return userExternalIdentityService.filterUserExternalIdentities(filterRequest);
@@ -77,7 +79,7 @@ public class UserExternalIdentityController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<UserExternalIdentityDTO> linkExternalIdentityToUser(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @RequestBody UserExternalIdentityDTO userExternalIdentityDTO) {
         userExternalIdentityDTO.setUserAccountId(userId);
         return userExternalIdentityService.createUserExternalIdentity(userExternalIdentityDTO);
@@ -92,9 +94,9 @@ public class UserExternalIdentityController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> unlinkExternalIdentityFromUser(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @Parameter(description = "ID of the external identity", required = true)
-            @PathVariable Long externalIdentityId) {
+            @PathVariable UUID externalIdentityId) {
         // Since there's no direct method to delete by userId and externalIdentityId,
         // we need to filter user external identities and then delete the matching one
         FilterRequest<UserExternalIdentityDTO> filterRequest = new FilterRequest<>();
@@ -137,7 +139,7 @@ public class UserExternalIdentityController {
     @PutMapping(value = "/external-identities/{externalIdentityId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserExternalIdentityDTO> updateUserExternalIdentity(
             @Parameter(description = "ID of the user external identity to update", required = true)
-            @PathVariable Long externalIdentityId,
+            @PathVariable UUID externalIdentityId,
             @RequestBody UserExternalIdentityDTO userExternalIdentityDTO) {
         return userExternalIdentityService.updateUserExternalIdentity(externalIdentityId, userExternalIdentityDTO);
     }
@@ -151,7 +153,7 @@ public class UserExternalIdentityController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteUserExternalIdentity(
             @Parameter(description = "ID of the user external identity to delete", required = true)
-            @PathVariable Long externalIdentityId) {
+            @PathVariable UUID externalIdentityId) {
         return userExternalIdentityService.deleteUserExternalIdentity(externalIdentityId);
     }
 }

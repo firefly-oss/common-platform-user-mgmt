@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "User Roles", description = "API for managing user roles")
@@ -46,7 +48,7 @@ public class UserRoleController {
     @GetMapping(value = "/user-roles/{userRoleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserRoleDTO> getUserRoleById(
             @Parameter(description = "ID of the user role to retrieve", required = true)
-            @PathVariable Long userRoleId) {
+            @PathVariable UUID userRoleId) {
         return userRoleService.getUserRoleById(userRoleId);
     }
 
@@ -60,7 +62,7 @@ public class UserRoleController {
     @GetMapping(value = "/users/{userId}/roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<UserRoleDTO>> getRolesByUserId(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId) {
+            @PathVariable UUID userId) {
         FilterRequest<UserRoleDTO> filterRequest = new FilterRequest<>();
         // The actual filtering will be handled by the service based on the userId
         return userRoleService.filterUserRoles(filterRequest);
@@ -77,7 +79,7 @@ public class UserRoleController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<UserRoleDTO> assignRoleToUser(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @RequestBody UserRoleDTO userRoleDTO) {
         userRoleDTO.setUserAccountId(userId);
         return userRoleService.createUserRole(userRoleDTO);
@@ -92,9 +94,9 @@ public class UserRoleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> removeRoleFromUser(
             @Parameter(description = "ID of the user", required = true)
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @Parameter(description = "ID of the role", required = true)
-            @PathVariable Long roleId) {
+            @PathVariable UUID roleId) {
         // Since there's no direct method to delete by userId and roleId,
         // we need to filter user roles and then delete the matching one
         FilterRequest<UserRoleDTO> filterRequest = new FilterRequest<>();
@@ -136,7 +138,7 @@ public class UserRoleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteUserRole(
             @Parameter(description = "ID of the user role to delete", required = true)
-            @PathVariable Long userRoleId) {
+            @PathVariable UUID userRoleId) {
         return userRoleService.deleteUserRole(userRoleId);
     }
 }

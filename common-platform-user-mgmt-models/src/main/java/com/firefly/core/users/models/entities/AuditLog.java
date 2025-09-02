@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an audit log entry in the system.
@@ -23,10 +24,10 @@ import java.time.OffsetDateTime;
 public class AuditLog {
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column("user_account_id")
-    private Long userAccountId;
+    private UUID userAccountId;
 
     private String action;
 

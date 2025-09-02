@@ -5,36 +5,38 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Repository interface for UserRole entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface UserRoleRepository extends BaseRepository<UserRole, Long> {
-    
+public interface UserRoleRepository extends BaseRepository<UserRole, UUID> {
+
     /**
      * Find user roles by user account ID.
      *
      * @param userAccountId the user account ID
      * @return a Flux of UserRole entities
      */
-    Flux<UserRole> findByUserAccountId(Long userAccountId);
-    
+    Flux<UserRole> findByUserAccountId(UUID userAccountId);
+
     /**
      * Find user roles by role ID.
      *
      * @param roleId the role ID
      * @return a Flux of UserRole entities
      */
-    Flux<UserRole> findByRoleId(Long roleId);
-    
+    Flux<UserRole> findByRoleId(UUID roleId);
+
     /**
      * Find user roles by branch ID.
      *
      * @param branchId the branch ID
      * @return a Flux of UserRole entities
      */
-    Flux<UserRole> findByBranchId(Long branchId);
+    Flux<UserRole> findByBranchId(UUID branchId);
     
     /**
      * Find user roles by distributor ID.

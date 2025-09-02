@@ -4,20 +4,22 @@ import com.firefly.core.users.models.entities.AuditLog;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
+import java.util.UUID;
+
 /**
  * Repository interface for AuditLog entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface AuditLogRepository extends BaseRepository<AuditLog, Long> {
-    
+public interface AuditLogRepository extends BaseRepository<AuditLog, UUID> {
+
     /**
      * Find audit logs by user account ID.
      *
      * @param userAccountId the user account ID
      * @return a Flux of AuditLog entities
      */
-    Flux<AuditLog> findByUserAccountId(Long userAccountId);
+    Flux<AuditLog> findByUserAccountId(UUID userAccountId);
     
     /**
      * Find audit logs by action.

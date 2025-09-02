@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a role-permission mapping in the system.
@@ -19,16 +20,16 @@ import java.time.OffsetDateTime;
 public class RolePermissionDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long roleId;
+    private UUID roleId;
 
     @FilterableId
-    private Long permissionId;
+    private UUID permissionId;
 
     private OffsetDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private OffsetDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

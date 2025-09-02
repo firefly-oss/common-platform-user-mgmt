@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.interfaces.dtos.UserExternalIdentityDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing user external identities.
@@ -33,16 +34,16 @@ public interface UserExternalIdentityService {
      * @param userExternalIdentityDTO the data transfer object containing the updated details of the user external identity
      * @return a reactive Mono containing the updated UserExternalIdentityDTO
      */
-    Mono<UserExternalIdentityDTO> updateUserExternalIdentity(Long userExternalIdentityId, UserExternalIdentityDTO userExternalIdentityDTO);
-    
+    Mono<UserExternalIdentityDTO> updateUserExternalIdentity(UUID userExternalIdentityId, UserExternalIdentityDTO userExternalIdentityDTO);
+
     /**
      * Deletes a user external identity identified by its unique ID.
      *
      * @param userExternalIdentityId the unique identifier of the user external identity to be deleted
      * @return a Mono that completes when the user external identity is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteUserExternalIdentity(Long userExternalIdentityId);
-    
+    Mono<Void> deleteUserExternalIdentity(UUID userExternalIdentityId);
+
     /**
      * Retrieves a user external identity by its unique identifier.
      *
@@ -50,5 +51,5 @@ public interface UserExternalIdentityService {
      * @return a Mono emitting the {@link UserExternalIdentityDTO} representing the user external identity if found,
      *         or an empty Mono if the user external identity does not exist
      */
-    Mono<UserExternalIdentityDTO> getUserExternalIdentityById(Long userExternalIdentityId);
+    Mono<UserExternalIdentityDTO> getUserExternalIdentityById(UUID userExternalIdentityId);
 }

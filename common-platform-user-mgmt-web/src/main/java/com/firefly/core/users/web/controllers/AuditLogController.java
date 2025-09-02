@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/audit-logs")
 @Tag(name = "Audit Logs", description = "API for accessing audit logs")
@@ -45,7 +47,7 @@ public class AuditLogController {
     @GetMapping(value = "/{auditLogId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AuditLogDTO> getAuditLogById(
             @Parameter(description = "ID of the audit log to retrieve", required = true)
-            @PathVariable Long auditLogId) {
+            @PathVariable UUID auditLogId) {
         return auditLogService.getAuditLogById(auditLogId);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an external identity linked to a user account.
@@ -24,35 +25,35 @@ import java.time.OffsetDateTime;
 public class UserExternalIdentity {
     
     @Id
-    private Long id;
-    
+    private UUID id;
+
     @Column("user_account_id")
-    private Long userAccountId;
-    
+    private UUID userAccountId;
+
     private String provider;
-    
+
     @Column("subject_id")
     private String subjectId;
-    
+
     private String email;
-    
+
     @Column("is_primary")
     private Boolean isPrimary;
-    
+
     @Column("linked_at")
     private OffsetDateTime linkedAt;
-    
+
     @CreatedDate
     @Column("created_at")
     private OffsetDateTime createdAt;
-    
+
     @Column("created_by")
-    private Long createdBy;
-    
+    private UUID createdBy;
+
     @LastModifiedDate
     @Column("updated_at")
     private OffsetDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

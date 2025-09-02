@@ -40,8 +40,8 @@ paths:
           description: ID of the user account to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved user account
@@ -67,8 +67,8 @@ paths:
           description: ID of the user account to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -106,8 +106,8 @@ paths:
           description: ID of the user account to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: User account successfully deleted
@@ -126,8 +126,8 @@ paths:
           description: ID of the role to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved role
@@ -153,8 +153,8 @@ paths:
           description: ID of the role to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -192,8 +192,8 @@ paths:
           description: ID of the role to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Role successfully deleted
@@ -212,8 +212,8 @@ paths:
           description: ID of the permission to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved permission
@@ -239,8 +239,8 @@ paths:
           description: ID of the permission to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -278,8 +278,8 @@ paths:
           description: ID of the permission to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Permission successfully deleted
@@ -298,8 +298,8 @@ paths:
           description: ID of the user external identity to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved user external identity
@@ -325,8 +325,8 @@ paths:
           description: ID of the user external identity to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -364,8 +364,8 @@ paths:
           description: ID of the user external identity to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: User external identity successfully deleted
@@ -384,8 +384,8 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved user roles
@@ -411,8 +411,8 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -451,8 +451,8 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved user external identities
@@ -478,8 +478,8 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -653,8 +653,8 @@ paths:
           description: ID of the role
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -936,8 +936,8 @@ paths:
           description: ID of the user role to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved user role
@@ -963,8 +963,8 @@ paths:
           description: ID of the user role to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: User role successfully deleted
@@ -983,8 +983,8 @@ paths:
           description: ID of the role permission to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved role permission
@@ -1010,8 +1010,8 @@ paths:
           description: ID of the role permission to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Role permission successfully deleted
@@ -1030,8 +1030,8 @@ paths:
           description: ID of the audit log to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved audit log
@@ -1107,15 +1107,15 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: roleId
           in: path
           description: ID of the role
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Role successfully removed from user
@@ -1134,15 +1134,15 @@ paths:
           description: ID of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: externalIdentityId
           in: path
           description: ID of the external identity
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: External identity successfully unlinked from user
@@ -1181,8 +1181,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         fullName:
           type: string
@@ -1196,17 +1196,17 @@ components:
             - EMPLOYEE
             - DISTRIBUTOR
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         distributorId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         departmentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         positionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         jobTitle:
           type: string
         avatarUrl:
@@ -1231,20 +1231,20 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     RoleDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         name:
           type: string
@@ -1262,20 +1262,20 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     PermissionDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         name:
           type: string
@@ -1287,24 +1287,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     UserExternalIdentityDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         userAccountId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         provider:
           type: string
         subjectId:
@@ -1320,51 +1320,51 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     UserRoleDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         userAccountId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         roleId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         distributorId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         assignedAt:
           type: string
           format: date-time
         assignedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         createdAt:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     FilterOptions:
       type: object
       properties:
@@ -1471,27 +1471,27 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         roleId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         permissionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         createdAt:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     FilterRequestRoleDTO:
       required:
         - pagination
@@ -1552,12 +1552,12 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
           readOnly: true
         userAccountId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         action:
           type: string
         resource:

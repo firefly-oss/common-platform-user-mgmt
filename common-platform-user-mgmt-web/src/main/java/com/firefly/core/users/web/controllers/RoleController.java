@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/roles")
 @Tag(name = "Roles", description = "API for managing roles")
@@ -46,7 +48,7 @@ public class RoleController {
     @GetMapping(value = "/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<RoleDTO> getRoleById(
             @Parameter(description = "ID of the role to retrieve", required = true)
-            @PathVariable Long roleId) {
+            @PathVariable UUID roleId) {
         return roleService.getRoleById(roleId);
     }
 
@@ -72,7 +74,7 @@ public class RoleController {
     @PutMapping(value = "/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<RoleDTO> updateRole(
             @Parameter(description = "ID of the role to update", required = true)
-            @PathVariable Long roleId,
+            @PathVariable UUID roleId,
             @RequestBody RoleDTO roleDTO) {
         return roleService.updateRole(roleId, roleDTO);
     }
@@ -86,7 +88,7 @@ public class RoleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteRole(
             @Parameter(description = "ID of the role to delete", required = true)
-            @PathVariable Long roleId) {
+            @PathVariable UUID roleId) {
         return roleService.deleteRole(roleId);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a user account in the system.
@@ -26,29 +27,29 @@ import java.time.OffsetDateTime;
 public class UserAccount {
     
     @Id
-    private Long id;
-    
+    private UUID id;
+
     @Column("full_name")
     private String fullName;
-    
+
     private String nickname;
-    
+
     private String email;
-    
+
     @Column("user_type")
     private UserTypeEnum userType;
-    
+
     @Column("branch_id")
-    private Long branchId;
-    
+    private UUID branchId;
+
     @Column("distributor_id")
-    private Long distributorId;
-    
+    private UUID distributorId;
+
     @Column("department_id")
-    private Long departmentId;
-    
+    private UUID departmentId;
+
     @Column("position_id")
-    private Long positionId;
+    private UUID positionId;
     
     @Column("job_title")
     private String jobTitle;
@@ -75,14 +76,14 @@ public class UserAccount {
     @CreatedDate
     @Column("created_at")
     private OffsetDateTime createdAt;
-    
+
     @Column("created_by")
-    private Long createdBy;
-    
+    private UUID createdBy;
+
     @LastModifiedDate
     @Column("updated_at")
     private OffsetDateTime updatedAt;
-    
+
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

@@ -1,9 +1,9 @@
 package com.firefly.core.users.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.UserExternalIdentityMapper;
+import com.firefly.core.users.core.services.impl.UserExternalIdentityServiceImpl;
 import com.firefly.core.users.interfaces.dtos.UserExternalIdentityDTO;
 import com.firefly.core.users.models.entities.UserExternalIdentity;
 import com.firefly.core.users.models.repositories.UserExternalIdentityRepository;
@@ -12,19 +12,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserExternalIdentityServiceImplTest {
+
+    private static final UUID TEST_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 
     @Mock
     private UserExternalIdentityRepository repository;
@@ -44,10 +45,10 @@ class UserExternalIdentityServiceImplTest {
     void setUp() {
         // Initialize test data
         userExternalIdentity = new UserExternalIdentity();
-        userExternalIdentity.setId(1L);
+        userExternalIdentity.setId(TEST_UUID);
 
         userExternalIdentityDTO = new UserExternalIdentityDTO();
-        userExternalIdentityDTO.setId(1L);
+        userExternalIdentityDTO.setId(TEST_UUID);
 
         filterRequest = new FilterRequest<>();
 
@@ -80,17 +81,17 @@ class UserExternalIdentityServiceImplTest {
     @Test
     void updateUserExternalIdentity_WhenUserExternalIdentityExists_ShouldUpdateAndReturnUserExternalIdentity() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userExternalIdentity));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userExternalIdentity));
         when(mapper.toEntity(any(UserExternalIdentityDTO.class))).thenReturn(userExternalIdentity);
         when(repository.save(any(UserExternalIdentity.class))).thenReturn(Mono.just(userExternalIdentity));
         when(mapper.toDTO(any(UserExternalIdentity.class))).thenReturn(userExternalIdentityDTO);
 
         // Act & Assert
-        StepVerifier.create(service.updateUserExternalIdentity(1L, userExternalIdentityDTO))
+        StepVerifier.create(service.updateUserExternalIdentity(TEST_UUID, userExternalIdentityDTO))
                 .expectNext(userExternalIdentityDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toEntity(userExternalIdentityDTO);
         verify(repository).save(userExternalIdentity);
         verify(mapper).toDTO(userExternalIdentity);
@@ -99,15 +100,15 @@ class UserExternalIdentityServiceImplTest {
     @Test
     void updateUserExternalIdentity_WhenUserExternalIdentityDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.updateUserExternalIdentity(1L, userExternalIdentityDTO))
+        StepVerifier.create(service.updateUserExternalIdentity(TEST_UUID, userExternalIdentityDTO))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User external identity not found with ID: 1"))
+                        throwable.getMessage().equals("User external identity not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toEntity(any());
         verify(repository, never()).save(any());
         verify(mapper, never()).toDTO(any());
@@ -116,59 +117,59 @@ class UserExternalIdentityServiceImplTest {
     @Test
     void deleteUserExternalIdentity_WhenUserExternalIdentityExists_ShouldDeleteUserExternalIdentity() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userExternalIdentity));
-        when(repository.deleteById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userExternalIdentity));
+        when(repository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteUserExternalIdentity(1L))
+        StepVerifier.create(service.deleteUserExternalIdentity(TEST_UUID))
                 .verifyComplete();
 
-        verify(repository).findById(1L);
-        verify(repository).deleteById(1L);
+        verify(repository).findById(TEST_UUID);
+        verify(repository).deleteById(TEST_UUID);
     }
 
     @Test
     void deleteUserExternalIdentity_WhenUserExternalIdentityDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteUserExternalIdentity(1L))
+        StepVerifier.create(service.deleteUserExternalIdentity(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User external identity not found with ID: 1"))
+                        throwable.getMessage().equals("User external identity not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
-        verify(repository, never()).deleteById(anyLong());
+        verify(repository).findById(TEST_UUID);
+        verify(repository, never()).deleteById(any(UUID.class));
     }
 
     @Test
     void getUserExternalIdentityById_WhenUserExternalIdentityExists_ShouldReturnUserExternalIdentity() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userExternalIdentity));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userExternalIdentity));
         when(mapper.toDTO(any(UserExternalIdentity.class))).thenReturn(userExternalIdentityDTO);
 
         // Act & Assert
-        StepVerifier.create(service.getUserExternalIdentityById(1L))
+        StepVerifier.create(service.getUserExternalIdentityById(TEST_UUID))
                 .expectNext(userExternalIdentityDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toDTO(userExternalIdentity);
     }
 
     @Test
     void getUserExternalIdentityById_WhenUserExternalIdentityDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.getUserExternalIdentityById(1L))
+        StepVerifier.create(service.getUserExternalIdentityById(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User external identity not found with ID: 1"))
+                        throwable.getMessage().equals("User external identity not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toDTO(any());
     }
 }

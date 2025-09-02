@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @Tag(name = "User Accounts", description = "API for managing user accounts")
@@ -46,7 +48,7 @@ public class UserAccountController {
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserAccountDTO> getUserAccountById(
             @Parameter(description = "ID of the user account to retrieve", required = true)
-            @PathVariable Long userId) {
+            @PathVariable UUID userId) {
         return userAccountService.getUserAccountById(userId);
     }
 
@@ -72,7 +74,7 @@ public class UserAccountController {
     @PutMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserAccountDTO> updateUserAccount(
             @Parameter(description = "ID of the user account to update", required = true)
-            @PathVariable Long userId,
+            @PathVariable UUID userId,
             @RequestBody UserAccountDTO userAccountDTO) {
         return userAccountService.updateUserAccount(userId, userAccountDTO);
     }
@@ -86,7 +88,7 @@ public class UserAccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteUserAccount(
             @Parameter(description = "ID of the user account to delete", required = true)
-            @PathVariable Long userId) {
+            @PathVariable UUID userId) {
         return userAccountService.deleteUserAccount(userId);
     }
 }

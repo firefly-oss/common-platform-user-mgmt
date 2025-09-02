@@ -1,9 +1,9 @@
 package com.firefly.core.users.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.UserRoleMapper;
+import com.firefly.core.users.core.services.impl.UserRoleServiceImpl;
 import com.firefly.core.users.interfaces.dtos.UserRoleDTO;
 import com.firefly.core.users.models.entities.UserRole;
 import com.firefly.core.users.models.repositories.UserRoleRepository;
@@ -12,19 +12,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserRoleServiceImplTest {
+
+    private static final UUID TEST_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 
     @Mock
     private UserRoleRepository repository;
@@ -44,10 +45,10 @@ class UserRoleServiceImplTest {
     void setUp() {
         // Initialize test data
         userRole = new UserRole();
-        userRole.setId(1L);
+        userRole.setId(TEST_UUID);
 
         userRoleDTO = new UserRoleDTO();
-        userRoleDTO.setId(1L);
+        userRoleDTO.setId(TEST_UUID);
 
         filterRequest = new FilterRequest<>();
 
@@ -80,17 +81,17 @@ class UserRoleServiceImplTest {
     @Test
     void updateUserRole_WhenUserRoleExists_ShouldUpdateAndReturnUserRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userRole));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userRole));
         when(mapper.toEntity(any(UserRoleDTO.class))).thenReturn(userRole);
         when(repository.save(any(UserRole.class))).thenReturn(Mono.just(userRole));
         when(mapper.toDTO(any(UserRole.class))).thenReturn(userRoleDTO);
 
         // Act & Assert
-        StepVerifier.create(service.updateUserRole(1L, userRoleDTO))
+        StepVerifier.create(service.updateUserRole(TEST_UUID, userRoleDTO))
                 .expectNext(userRoleDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toEntity(userRoleDTO);
         verify(repository).save(userRole);
         verify(mapper).toDTO(userRole);
@@ -99,15 +100,15 @@ class UserRoleServiceImplTest {
     @Test
     void updateUserRole_WhenUserRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.updateUserRole(1L, userRoleDTO))
+        StepVerifier.create(service.updateUserRole(TEST_UUID, userRoleDTO))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User role not found with ID: 1"))
+                        throwable.getMessage().equals("User role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toEntity(any());
         verify(repository, never()).save(any());
         verify(mapper, never()).toDTO(any());
@@ -116,59 +117,59 @@ class UserRoleServiceImplTest {
     @Test
     void deleteUserRole_WhenUserRoleExists_ShouldDeleteUserRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userRole));
-        when(repository.deleteById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userRole));
+        when(repository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteUserRole(1L))
+        StepVerifier.create(service.deleteUserRole(TEST_UUID))
                 .verifyComplete();
 
-        verify(repository).findById(1L);
-        verify(repository).deleteById(1L);
+        verify(repository).findById(TEST_UUID);
+        verify(repository).deleteById(TEST_UUID);
     }
 
     @Test
     void deleteUserRole_WhenUserRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteUserRole(1L))
+        StepVerifier.create(service.deleteUserRole(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User role not found with ID: 1"))
+                        throwable.getMessage().equals("User role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
-        verify(repository, never()).deleteById(anyLong());
+        verify(repository).findById(TEST_UUID);
+        verify(repository, never()).deleteById(any(UUID.class));
     }
 
     @Test
     void getUserRoleById_WhenUserRoleExists_ShouldReturnUserRole() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(userRole));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(userRole));
         when(mapper.toDTO(any(UserRole.class))).thenReturn(userRoleDTO);
 
         // Act & Assert
-        StepVerifier.create(service.getUserRoleById(1L))
+        StepVerifier.create(service.getUserRoleById(TEST_UUID))
                 .expectNext(userRoleDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toDTO(userRole);
     }
 
     @Test
     void getUserRoleById_WhenUserRoleDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.getUserRoleById(1L))
+        StepVerifier.create(service.getUserRoleById(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("User role not found with ID: 1"))
+                        throwable.getMessage().equals("User role not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toDTO(any());
     }
 }

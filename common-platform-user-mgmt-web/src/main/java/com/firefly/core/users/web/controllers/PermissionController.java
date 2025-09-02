@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/permissions")
 @Tag(name = "Permissions", description = "API for managing permissions")
@@ -46,7 +48,7 @@ public class PermissionController {
     @GetMapping(value = "/{permissionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PermissionDTO> getPermissionById(
             @Parameter(description = "ID of the permission to retrieve", required = true)
-            @PathVariable Long permissionId) {
+            @PathVariable UUID permissionId) {
         return permissionService.getPermissionById(permissionId);
     }
 
@@ -72,7 +74,7 @@ public class PermissionController {
     @PutMapping(value = "/{permissionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PermissionDTO> updatePermission(
             @Parameter(description = "ID of the permission to update", required = true)
-            @PathVariable Long permissionId,
+            @PathVariable UUID permissionId,
             @RequestBody PermissionDTO permissionDTO) {
         return permissionService.updatePermission(permissionId, permissionDTO);
     }
@@ -86,7 +88,7 @@ public class PermissionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deletePermission(
             @Parameter(description = "ID of the permission to delete", required = true)
-            @PathVariable Long permissionId) {
+            @PathVariable UUID permissionId) {
         return permissionService.deletePermission(permissionId);
     }
 }

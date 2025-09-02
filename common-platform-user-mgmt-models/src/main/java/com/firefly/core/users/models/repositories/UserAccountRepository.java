@@ -6,13 +6,15 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 /**
  * Repository interface for UserAccount entity.
  * Extends BaseRepository to inherit common CRUD operations.
  */
 @Repository
-public interface UserAccountRepository extends BaseRepository<UserAccount, Long> {
-    
+public interface UserAccountRepository extends BaseRepository<UserAccount, UUID> {
+
     /**
      * Find a user account by email.
      *
@@ -20,7 +22,7 @@ public interface UserAccountRepository extends BaseRepository<UserAccount, Long>
      * @return a Mono of UserAccount entity
      */
     Mono<UserAccount> findByEmail(String email);
-    
+
     /**
      * Find user accounts by user type.
      *
@@ -28,7 +30,7 @@ public interface UserAccountRepository extends BaseRepository<UserAccount, Long>
      * @return a Flux of UserAccount entities
      */
     Flux<UserAccount> findByUserType(UserTypeEnum userType);
-    
+
     /**
      * Find user accounts by active status.
      *
@@ -36,22 +38,22 @@ public interface UserAccountRepository extends BaseRepository<UserAccount, Long>
      * @return a Flux of UserAccount entities
      */
     Flux<UserAccount> findByIsActive(Boolean isActive);
-    
+
     /**
      * Find user accounts by branch ID.
      *
      * @param branchId the branch ID
      * @return a Flux of UserAccount entities
      */
-    Flux<UserAccount> findByBranchId(Long branchId);
-    
+    Flux<UserAccount> findByBranchId(UUID branchId);
+
     /**
      * Find user accounts by distributor ID.
      *
      * @param distributorId the distributor ID
      * @return a Flux of UserAccount entities
      */
-    Flux<UserAccount> findByDistributorId(Long distributorId);
+    Flux<UserAccount> findByDistributorId(UUID distributorId);
     
     /**
      * Check if a user account with the given email exists.

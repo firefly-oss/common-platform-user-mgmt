@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.interfaces.dtos.UserRoleDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing user roles.
@@ -33,16 +34,16 @@ public interface UserRoleService {
      * @param userRoleDTO the data transfer object containing the updated details of the user role
      * @return a reactive Mono containing the updated UserRoleDTO
      */
-    Mono<UserRoleDTO> updateUserRole(Long userRoleId, UserRoleDTO userRoleDTO);
-    
+    Mono<UserRoleDTO> updateUserRole(UUID userRoleId, UserRoleDTO userRoleDTO);
+
     /**
      * Deletes a user role identified by its unique ID.
      *
      * @param userRoleId the unique identifier of the user role to be deleted
      * @return a Mono that completes when the user role is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteUserRole(Long userRoleId);
-    
+    Mono<Void> deleteUserRole(UUID userRoleId);
+
     /**
      * Retrieves a user role by its unique identifier.
      *
@@ -50,5 +51,5 @@ public interface UserRoleService {
      * @return a Mono emitting the {@link UserRoleDTO} representing the user role if found,
      *         or an empty Mono if the user role does not exist
      */
-    Mono<UserRoleDTO> getUserRoleById(Long userRoleId);
+    Mono<UserRoleDTO> getUserRoleById(UUID userRoleId);
 }

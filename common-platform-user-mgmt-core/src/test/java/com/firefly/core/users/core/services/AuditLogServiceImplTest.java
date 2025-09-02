@@ -1,9 +1,9 @@
 package com.firefly.core.users.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.users.core.mappers.AuditLogMapper;
+import com.firefly.core.users.core.services.impl.AuditLogServiceImpl;
 import com.firefly.core.users.interfaces.dtos.AuditLogDTO;
 import com.firefly.core.users.models.entities.AuditLog;
 import com.firefly.core.users.models.repositories.AuditLogRepository;
@@ -12,21 +12,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.Collections;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuditLogServiceImplTest {
+
+    private static final UUID TEST_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 
     @Mock
     private AuditLogRepository repository;
@@ -46,10 +45,10 @@ class AuditLogServiceImplTest {
     void setUp() {
         // Initialize test data
         auditLog = new AuditLog();
-        auditLog.setId(1L);
+        auditLog.setId(TEST_UUID);
 
         auditLogDTO = new AuditLogDTO();
-        auditLogDTO.setId(1L);
+        auditLogDTO.setId(TEST_UUID);
 
         filterRequest = new FilterRequest<>();
 
@@ -82,17 +81,17 @@ class AuditLogServiceImplTest {
     @Test
     void updateAuditLog_WhenAuditLogExists_ShouldUpdateAndReturnAuditLog() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(auditLog));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(auditLog));
         when(mapper.toEntity(any(AuditLogDTO.class))).thenReturn(auditLog);
         when(repository.save(any(AuditLog.class))).thenReturn(Mono.just(auditLog));
         when(mapper.toDTO(any(AuditLog.class))).thenReturn(auditLogDTO);
 
         // Act & Assert
-        StepVerifier.create(service.updateAuditLog(1L, auditLogDTO))
+        StepVerifier.create(service.updateAuditLog(TEST_UUID, auditLogDTO))
                 .expectNext(auditLogDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toEntity(auditLogDTO);
         verify(repository).save(auditLog);
         verify(mapper).toDTO(auditLog);
@@ -101,15 +100,15 @@ class AuditLogServiceImplTest {
     @Test
     void updateAuditLog_WhenAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.updateAuditLog(1L, auditLogDTO))
+        StepVerifier.create(service.updateAuditLog(TEST_UUID, auditLogDTO))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Audit log not found with ID: 1"))
+                        throwable.getMessage().equals("Audit log not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toEntity(any());
         verify(repository, never()).save(any());
         verify(mapper, never()).toDTO(any());
@@ -118,59 +117,59 @@ class AuditLogServiceImplTest {
     @Test
     void deleteAuditLog_WhenAuditLogExists_ShouldDeleteAuditLog() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(auditLog));
-        when(repository.deleteById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(auditLog));
+        when(repository.deleteById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteAuditLog(1L))
+        StepVerifier.create(service.deleteAuditLog(TEST_UUID))
                 .verifyComplete();
 
-        verify(repository).findById(1L);
-        verify(repository).deleteById(1L);
+        verify(repository).findById(TEST_UUID);
+        verify(repository).deleteById(TEST_UUID);
     }
 
     @Test
     void deleteAuditLog_WhenAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.deleteAuditLog(1L))
+        StepVerifier.create(service.deleteAuditLog(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Audit log not found with ID: 1"))
+                        throwable.getMessage().equals("Audit log not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
-        verify(repository, never()).deleteById(anyLong());
+        verify(repository).findById(TEST_UUID);
+        verify(repository, never()).deleteById(any(UUID.class));
     }
 
     @Test
     void getAuditLogById_WhenAuditLogExists_ShouldReturnAuditLog() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.just(auditLog));
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.just(auditLog));
         when(mapper.toDTO(any(AuditLog.class))).thenReturn(auditLogDTO);
 
         // Act & Assert
-        StepVerifier.create(service.getAuditLogById(1L))
+        StepVerifier.create(service.getAuditLogById(TEST_UUID))
                 .expectNext(auditLogDTO)
                 .verifyComplete();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper).toDTO(auditLog);
     }
 
     @Test
     void getAuditLogById_WhenAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        when(repository.findById(anyLong())).thenReturn(Mono.empty());
+        when(repository.findById(any(UUID.class))).thenReturn(Mono.empty());
 
         // Act & Assert
-        StepVerifier.create(service.getAuditLogById(1L))
+        StepVerifier.create(service.getAuditLogById(TEST_UUID))
                 .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
-                        throwable.getMessage().equals("Audit log not found with ID: 1"))
+                        throwable.getMessage().equals("Audit log not found with ID: " + TEST_UUID))
                 .verify();
 
-        verify(repository).findById(1L);
+        verify(repository).findById(TEST_UUID);
         verify(mapper, never()).toDTO(any());
     }
 }

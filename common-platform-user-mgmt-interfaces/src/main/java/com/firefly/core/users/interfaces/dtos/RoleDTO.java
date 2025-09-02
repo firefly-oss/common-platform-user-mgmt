@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a role in the system.
@@ -19,14 +20,14 @@ import java.time.OffsetDateTime;
 public class RoleDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     private String name;
     private String description;
     private Boolean isAssignable;
     private ScopeTypeEnum scopeType;
     private OffsetDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private OffsetDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

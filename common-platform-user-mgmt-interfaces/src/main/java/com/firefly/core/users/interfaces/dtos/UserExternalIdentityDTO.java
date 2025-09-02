@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing an external identity linked to a user account.
@@ -19,10 +20,10 @@ import java.time.OffsetDateTime;
 public class UserExternalIdentityDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long userAccountId;
+    private UUID userAccountId;
 
     private String provider;
 
@@ -33,7 +34,7 @@ public class UserExternalIdentityDTO {
     private Boolean isPrimary;
     private OffsetDateTime linkedAt;
     private OffsetDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private OffsetDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }
