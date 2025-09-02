@@ -1178,6 +1178,11 @@ paths:
 components:
   schemas:
     UserAccountDTO:
+      required:
+        - email
+        - fullName
+        - isActive
+        - userType
       type: object
       properties:
         id:
@@ -1185,10 +1190,16 @@ components:
           format: uuid
           readOnly: true
         fullName:
+          maxLength: 255
+          minLength: 1
           type: string
         nickname:
+          maxLength: 100
+          minLength: 0
           type: string
         email:
+          maxLength: 255
+          minLength: 0
           type: string
         userType:
           type: string
@@ -1208,8 +1219,13 @@ components:
           type: string
           format: uuid
         jobTitle:
+          maxLength: 255
+          minLength: 0
           type: string
         avatarUrl:
+          maxLength: 500
+          minLength: 0
+          pattern: ^(https?://)?[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$
           type: string
         themePreference:
           type: string
@@ -1218,12 +1234,23 @@ components:
             - DARK
             - SYSTEM
         languagePreference:
+          maxLength: 10
+          minLength: 0
+          pattern: ^[a-z]{2}(-[A-Z]{2})?$
           type: string
         locale:
+          maxLength: 10
+          minLength: 0
+          pattern: ^[a-z]{2}_[A-Z]{2}$
           type: string
         timezone:
+          maxLength: 50
+          minLength: 0
           type: string
         contactPhone:
+          maxLength: 20
+          minLength: 0
+          pattern: ^\+?[1-9]\d{1,14}$
           type: string
         isActive:
           type: boolean
@@ -1240,6 +1267,10 @@ components:
           type: string
           format: uuid
     RoleDTO:
+      required:
+        - isAssignable
+        - name
+        - scopeType
       type: object
       properties:
         id:
@@ -1247,8 +1278,12 @@ components:
           format: uuid
           readOnly: true
         name:
+          maxLength: 100
+          minLength: 1
           type: string
         description:
+          maxLength: 500
+          minLength: 0
           type: string
         isAssignable:
           type: boolean
@@ -1271,6 +1306,9 @@ components:
           type: string
           format: uuid
     PermissionDTO:
+      required:
+        - domain
+        - name
       type: object
       properties:
         id:
@@ -1278,10 +1316,18 @@ components:
           format: uuid
           readOnly: true
         name:
+          maxLength: 100
+          minLength: 1
+          pattern: ^[A-Z_]+$
           type: string
         description:
+          maxLength: 500
+          minLength: 0
           type: string
         domain:
+          maxLength: 100
+          minLength: 1
+          pattern: ^[a-z_]+$
           type: string
         createdAt:
           type: string
@@ -1296,6 +1342,11 @@ components:
           type: string
           format: uuid
     UserExternalIdentityDTO:
+      required:
+        - isPrimary
+        - provider
+        - subjectId
+        - userAccountId
       type: object
       properties:
         id:
@@ -1306,10 +1357,16 @@ components:
           type: string
           format: uuid
         provider:
+          maxLength: 100
+          minLength: 1
           type: string
         subjectId:
+          maxLength: 255
+          minLength: 1
           type: string
         email:
+          maxLength: 255
+          minLength: 0
           type: string
         isPrimary:
           type: boolean
@@ -1329,6 +1386,11 @@ components:
           type: string
           format: uuid
     UserRoleDTO:
+      required:
+        - assignedAt
+        - assignedBy
+        - roleId
+        - userAccountId
       type: object
       properties:
         id:
@@ -1468,6 +1530,9 @@ components:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
     RolePermissionDTO:
+      required:
+        - permissionId
+        - roleId
       type: object
       properties:
         id:
@@ -1549,6 +1614,12 @@ components:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
     AuditLogDTO:
+      required:
+        - action
+        - resource
+        - resourceId
+        - timestamp
+        - userAccountId
       type: object
       properties:
         id:
@@ -1559,14 +1630,23 @@ components:
           type: string
           format: uuid
         action:
+          maxLength: 100
+          minLength: 1
           type: string
         resource:
+          maxLength: 100
+          minLength: 1
           type: string
         resourceId:
+          maxLength: 255
+          minLength: 1
           type: string
         metadata:
           $ref: '#/components/schemas/JsonNode'
         ipAddress:
+          maxLength: 45
+          minLength: 0
+          pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$
           type: string
         timestamp:
           type: string
