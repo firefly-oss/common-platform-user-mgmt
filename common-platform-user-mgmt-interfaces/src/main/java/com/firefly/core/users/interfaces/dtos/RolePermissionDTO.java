@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -23,9 +24,11 @@ public class RolePermissionDTO {
     private UUID id;
 
     @FilterableId
+    @NotNull(message = "Role ID is required")
     private UUID roleId;
 
     @FilterableId
+    @NotNull(message = "Permission ID is required")
     private UUID permissionId;
 
     private OffsetDateTime createdAt;

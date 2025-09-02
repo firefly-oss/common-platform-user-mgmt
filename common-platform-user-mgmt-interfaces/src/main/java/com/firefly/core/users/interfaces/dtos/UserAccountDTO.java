@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -24,9 +25,19 @@ public class UserAccountDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
 
+    @NotBlank(message = "Full name is required")
+    @Size(min = 1, max = 255, message = "Full name must be between 1 and 255 characters")
     private String fullName;
+
+    @Size(max = 100, message = "Nickname must not exceed 100 characters")
     private String nickname;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be a valid email address")
+    @Size(max = 255, message = "Email must not exceed 255 characters")
     private String email;
+
+    @NotNull(message = "User type is required")
     private UserTypeEnum userType;
 
     @FilterableId
@@ -41,14 +52,35 @@ public class UserAccountDTO {
     @FilterableId
     private UUID positionId;
 
+    @Size(max = 255, message = "Job title must not exceed 255 characters")
     private String jobTitle;
+
+    @Size(max = 500, message = "Avatar URL must not exceed 500 characters")
+    @Pattern(regexp = "^(https?://)?[\\w\\-]+(\\.[\\w\\-]+)+([\\w\\-\\.,@?^=%&:/~\\+#]*[\\w\\-\\@?^=%&/~\\+#])?$",
+             message = "Avatar URL must be a valid URL format",
+             flags = Pattern.Flag.CASE_INSENSITIVE)
     private String avatarUrl;
+
     private ThemePreferenceEnum themePreference;
+
+    @Size(max = 10, message = "Language preference must not exceed 10 characters")
+    @Pattern(regexp = "^[a-z]{2}(-[A-Z]{2})?$", message = "Language preference must be in format 'en' or 'en-US'")
     private String languagePreference;
+
+    @Size(max = 10, message = "Locale must not exceed 10 characters")
+    @Pattern(regexp = "^[a-z]{2}_[A-Z]{2}$", message = "Locale must be in format 'en_US'")
     private String locale;
+
+    @Size(max = 50, message = "Timezone must not exceed 50 characters")
     private String timezone;
+
+    @Size(max = 20, message = "Contact phone must not exceed 20 characters")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Contact phone must be a valid phone number")
     private String contactPhone;
+
+    @NotNull(message = "Active status is required")
     private Boolean isActive;
+
     private OffsetDateTime createdAt;
     private UUID createdBy;
     private OffsetDateTime updatedAt;

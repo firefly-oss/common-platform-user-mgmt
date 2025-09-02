@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -23,9 +24,11 @@ public class UserRoleDTO {
     private UUID id;
 
     @FilterableId
+    @NotNull(message = "User account ID is required")
     private UUID userAccountId;
 
     @FilterableId
+    @NotNull(message = "Role ID is required")
     private UUID roleId;
 
     @FilterableId
@@ -34,8 +37,12 @@ public class UserRoleDTO {
     @FilterableId
     private UUID distributorId;
 
+    @NotNull(message = "Assigned at timestamp is required")
     private OffsetDateTime assignedAt;
+
+    @NotNull(message = "Assigned by user ID is required")
     private UUID assignedBy;
+
     private OffsetDateTime createdAt;
     private UUID createdBy;
     private OffsetDateTime updatedAt;
