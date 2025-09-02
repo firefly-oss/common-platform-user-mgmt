@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class UserExternalIdentityServiceImpl implements UserExternalIdentityService {
@@ -41,7 +43,7 @@ public class UserExternalIdentityServiceImpl implements UserExternalIdentityServ
     }
 
     @Override
-    public Mono<UserExternalIdentityDTO> updateUserExternalIdentity(Long userExternalIdentityId, UserExternalIdentityDTO userExternalIdentityDTO) {
+    public Mono<UserExternalIdentityDTO> updateUserExternalIdentity(UUID userExternalIdentityId, UserExternalIdentityDTO userExternalIdentityDTO) {
         return repository.findById(userExternalIdentityId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User external identity not found with ID: " + userExternalIdentityId)))
                 .flatMap(existingUserExternalIdentity -> {
@@ -53,14 +55,14 @@ public class UserExternalIdentityServiceImpl implements UserExternalIdentityServ
     }
 
     @Override
-    public Mono<Void> deleteUserExternalIdentity(Long userExternalIdentityId) {
+    public Mono<Void> deleteUserExternalIdentity(UUID userExternalIdentityId) {
         return repository.findById(userExternalIdentityId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User external identity not found with ID: " + userExternalIdentityId)))
                 .flatMap(userExternalIdentity -> repository.deleteById(userExternalIdentityId));
     }
 
     @Override
-    public Mono<UserExternalIdentityDTO> getUserExternalIdentityById(Long userExternalIdentityId) {
+    public Mono<UserExternalIdentityDTO> getUserExternalIdentityById(UUID userExternalIdentityId) {
         return repository.findById(userExternalIdentityId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User external identity not found with ID: " + userExternalIdentityId)))
                 .map(mapper::toDTO);

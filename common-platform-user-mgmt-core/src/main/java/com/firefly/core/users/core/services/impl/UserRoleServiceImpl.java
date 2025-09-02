@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class UserRoleServiceImpl implements UserRoleService {
@@ -41,7 +43,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public Mono<UserRoleDTO> updateUserRole(Long userRoleId, UserRoleDTO userRoleDTO) {
+    public Mono<UserRoleDTO> updateUserRole(UUID userRoleId, UserRoleDTO userRoleDTO) {
         return repository.findById(userRoleId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User role not found with ID: " + userRoleId)))
                 .flatMap(existingUserRole -> {
@@ -53,14 +55,14 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public Mono<Void> deleteUserRole(Long userRoleId) {
+    public Mono<Void> deleteUserRole(UUID userRoleId) {
         return repository.findById(userRoleId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User role not found with ID: " + userRoleId)))
                 .flatMap(userRole -> repository.deleteById(userRoleId));
     }
 
     @Override
-    public Mono<UserRoleDTO> getUserRoleById(Long userRoleId) {
+    public Mono<UserRoleDTO> getUserRoleById(UUID userRoleId) {
         return repository.findById(userRoleId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User role not found with ID: " + userRoleId)))
                 .map(mapper::toDTO);

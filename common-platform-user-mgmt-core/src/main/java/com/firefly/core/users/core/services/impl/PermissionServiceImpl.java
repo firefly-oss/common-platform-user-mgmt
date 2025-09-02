@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class PermissionServiceImpl implements PermissionService {
@@ -41,7 +43,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Mono<PermissionDTO> updatePermission(Long permissionId, PermissionDTO permissionDTO) {
+    public Mono<PermissionDTO> updatePermission(UUID permissionId, PermissionDTO permissionDTO) {
         return repository.findById(permissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Permission not found with ID: " + permissionId)))
                 .flatMap(existingPermission -> {
@@ -53,14 +55,14 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Mono<Void> deletePermission(Long permissionId) {
+    public Mono<Void> deletePermission(UUID permissionId) {
         return repository.findById(permissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Permission not found with ID: " + permissionId)))
                 .flatMap(permission -> repository.deleteById(permissionId));
     }
 
     @Override
-    public Mono<PermissionDTO> getPermissionById(Long permissionId) {
+    public Mono<PermissionDTO> getPermissionById(UUID permissionId) {
         return repository.findById(permissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Permission not found with ID: " + permissionId)))
                 .map(mapper::toDTO);

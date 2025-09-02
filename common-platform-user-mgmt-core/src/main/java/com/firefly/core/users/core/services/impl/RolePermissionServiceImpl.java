@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class RolePermissionServiceImpl implements RolePermissionService {
@@ -41,7 +43,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     }
 
     @Override
-    public Mono<RolePermissionDTO> updateRolePermission(Long rolePermissionId, RolePermissionDTO rolePermissionDTO) {
+    public Mono<RolePermissionDTO> updateRolePermission(UUID rolePermissionId, RolePermissionDTO rolePermissionDTO) {
         return repository.findById(rolePermissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Role-Permission mapping not found with ID: " + rolePermissionId)))
                 .flatMap(existingRolePermission -> {
@@ -53,14 +55,14 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     }
 
     @Override
-    public Mono<Void> deleteRolePermission(Long rolePermissionId) {
+    public Mono<Void> deleteRolePermission(UUID rolePermissionId) {
         return repository.findById(rolePermissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Role-Permission mapping not found with ID: " + rolePermissionId)))
                 .flatMap(rolePermission -> repository.deleteById(rolePermissionId));
     }
 
     @Override
-    public Mono<RolePermissionDTO> getRolePermissionById(Long rolePermissionId) {
+    public Mono<RolePermissionDTO> getRolePermissionById(UUID rolePermissionId) {
         return repository.findById(rolePermissionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Role-Permission mapping not found with ID: " + rolePermissionId)))
                 .map(mapper::toDTO);

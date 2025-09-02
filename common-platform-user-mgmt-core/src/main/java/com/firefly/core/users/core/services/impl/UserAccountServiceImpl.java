@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class UserAccountServiceImpl implements UserAccountService {
@@ -41,7 +43,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public Mono<UserAccountDTO> updateUserAccount(Long userAccountId, UserAccountDTO userAccountDTO) {
+    public Mono<UserAccountDTO> updateUserAccount(UUID userAccountId, UserAccountDTO userAccountDTO) {
         return repository.findById(userAccountId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User account not found with ID: " + userAccountId)))
                 .flatMap(existingUserAccount -> {
@@ -53,14 +55,14 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public Mono<Void> deleteUserAccount(Long userAccountId) {
+    public Mono<Void> deleteUserAccount(UUID userAccountId) {
         return repository.findById(userAccountId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User account not found with ID: " + userAccountId)))
                 .flatMap(userAccount -> repository.deleteById(userAccountId));
     }
 
     @Override
-    public Mono<UserAccountDTO> getUserAccountById(Long userAccountId) {
+    public Mono<UserAccountDTO> getUserAccountById(UUID userAccountId) {
         return repository.findById(userAccountId)
                 .switchIfEmpty(Mono.error(new RuntimeException("User account not found with ID: " + userAccountId)))
                 .map(mapper::toDTO);

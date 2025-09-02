@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class AuditLogServiceImpl implements AuditLogService {
@@ -41,7 +43,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     }
 
     @Override
-    public Mono<AuditLogDTO> updateAuditLog(Long auditLogId, AuditLogDTO auditLogDTO) {
+    public Mono<AuditLogDTO> updateAuditLog(UUID auditLogId, AuditLogDTO auditLogDTO) {
         return repository.findById(auditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Audit log not found with ID: " + auditLogId)))
                 .flatMap(existingAuditLog -> {
@@ -53,14 +55,14 @@ public class AuditLogServiceImpl implements AuditLogService {
     }
 
     @Override
-    public Mono<Void> deleteAuditLog(Long auditLogId) {
+    public Mono<Void> deleteAuditLog(UUID auditLogId) {
         return repository.findById(auditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Audit log not found with ID: " + auditLogId)))
                 .flatMap(auditLog -> repository.deleteById(auditLogId));
     }
 
     @Override
-    public Mono<AuditLogDTO> getAuditLogById(Long auditLogId) {
+    public Mono<AuditLogDTO> getAuditLogById(UUID auditLogId) {
         return repository.findById(auditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Audit log not found with ID: " + auditLogId)))
                 .map(mapper::toDTO);
